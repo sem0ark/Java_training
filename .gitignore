@@ -1,5 +1,5 @@
 .idea
 
-GeometryDash_gameswithgabe/*
-!GeometryDash_gameswithgabe/src
-!GeometryDash_gameswithgabe/assets
+GeometryDash_gameswithgabe/out
+GeometryDash_gameswithgabe/levels/Test*
+GeometryDash_gameswithgabe/.idea
