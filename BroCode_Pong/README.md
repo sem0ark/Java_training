@@ -6,7 +6,7 @@ This projects implements all standard processes for the Pong Game.
 This game is created for coop-style.
 
 Controls:
-W - Move the left paddle up
-S - Move the left paddle down
-UP - Move the right paddle up
-DOWN - Move the right paddle down
+- W - Move the left paddle up
+- S - Move the left paddle down
+- UP - Move the right paddle up
+- DOWN - Move the right paddle down
