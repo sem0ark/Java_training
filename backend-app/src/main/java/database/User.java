@@ -14,8 +14,13 @@ public class User {
 	@DatabaseField
 	private String email;
  
-	public User() {
-		// ORMLite needs a no-arg constructor
+	User() {
+		// for ORMLite
+	}
+	
+	public User(String username, String email) {
+		this.username = username;
+		this.email = email;
 	}
 	
 	public int getId() {
@@ -36,5 +41,10 @@ public class User {
 	 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", username=" + username + ", email=" + email + "]";
 	}
 }
