@@ -7,7 +7,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 public class Util {
-	private static final DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-mm-dd");
+	private static final DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 	
 	public static Date parseDate(String date) throws ParseException {
 		return Date.from(
