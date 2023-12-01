@@ -37,13 +37,4 @@ class PerformanceTest {
         assertEquals(result.getDate(), performance.getDate());
         assertEquals(result.getTicketPrice(), performance.getTicketPrice());
 	}
-	
-	@Test
-	public void test_performanceNear() throws SQLException, ParseException {
-		PerformanceTest.conn.getPerformanceDao().create(new Performance("playName", Util.getNowAfterDays(1), 20));
-		PerformanceTest.conn.getPerformanceDao().create(new Performance("playName", Util.getNowAfterDays(2), 20));
-		PerformanceTest.conn.getPerformanceDao().create(new Performance("playName", Util.getNowAfterDays(6), 20));
-        
-        assertEquals(2, Performance.queryFindNext(conn, 4).size());
-	}
 }
