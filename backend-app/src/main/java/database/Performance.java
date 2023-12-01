@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
@@ -70,6 +71,24 @@ public class Performance {
 				+ "]";
 	}
 	
+	
+	
+	@Override
+	public int hashCode() {
+		return Objects.hash(date, id, playName, ticketPrice);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) return true;
+		if (obj == null) return false;
+		if (getClass() != obj.getClass()) return false;
+		Performance other = (Performance) obj;
+		return Objects.equals(date, other.date) 
+				&& id == other.id && Objects.equals(playName, other.playName)
+				&& Objects.equals(ticketPrice, other.ticketPrice);
+	}
+
 	public int getId() {
 		return id;
 	}

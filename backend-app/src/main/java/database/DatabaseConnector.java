@@ -43,8 +43,11 @@ public class DatabaseConnector {
 				throw e;
 			}	
 		}
-		
 		return this.userDao;
+	}
+	
+	public void dropUser() throws SQLException {
+		TableUtils.dropTable(getUserDao(), true);
 	}
 	
 	private Dao<Performance, String> performanceDao;
@@ -62,6 +65,10 @@ public class DatabaseConnector {
 		return this.performanceDao;
 	}
 	
+	public void dropPerformance() throws SQLException {
+		TableUtils.dropTable(getPerformanceDao(), true);
+	}
+	
 	private Dao<Reservation, String> reservationDao;
 	public Dao<Reservation, String> getReservationDao() throws SQLException {
 		if(this.reservationDao == null) {
@@ -75,5 +82,9 @@ public class DatabaseConnector {
 		}
 		
 		return this.reservationDao;
+	}
+	
+	public void dropReservation() throws SQLException {
+		TableUtils.dropTable(getReservationDao(), true);
 	}
 }
