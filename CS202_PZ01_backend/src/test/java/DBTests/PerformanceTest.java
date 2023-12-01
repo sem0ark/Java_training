@@ -13,12 +13,12 @@ import util.Config;
 import util.Util;
 
 class PerformanceTest {
-	public static DatabaseConnector conn = new DatabaseConnector(Config.DATABASE_URL_TEST);
+	public DatabaseConnector conn = new DatabaseConnector(Config.DATABASE_URL_TEST);
 	
 	@Before
 	public void clearDB() {
 		try {
-			PerformanceTest.conn.dropPerformance();
+			conn.dropPerformance();
 		} catch (SQLException e) {
 			System.err.println("Failed dropping DB");
 			e.printStackTrace();
@@ -28,9 +28,9 @@ class PerformanceTest {
 	@Test
 	public void test_performanceAdd() throws SQLException, ParseException {
 		Performance performance = new Performance("playName", Util.parseDate("2023-11-10"), 20);
-		PerformanceTest.conn.getPerformanceDao().create(performance);
+		conn.getPerformanceDao().create(performance);
         
-        Performance result = PerformanceTest.conn.getPerformanceDao().queryForId(Integer.toString(performance.getId()));
+        Performance result = conn.getPerformanceDao().queryForId(Integer.toString(performance.getId()));
         
         assertEquals(result.getId(), performance.getId());
         assertEquals(result.getPlayName(), performance.getPlayName());

@@ -1,6 +1,6 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>com.cs202pz.backend</groupId>
+  <groupId>com.cs202pz</groupId>
   <artifactId>backend-app</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <name>CS202_PZ01_backend</name>
@@ -27,12 +27,6 @@
 	<dependency>
 		<groupId>com.j256.ormlite</groupId>
 		<artifactId>ormlite-jdbc</artifactId>
-		<version>6.1</version>
-	</dependency>
-	
-	<dependency>
-		<groupId>com.j256.ormlite</groupId>
-		<artifactId>ormlite-core</artifactId>
 		<version>6.1</version>
 	</dependency>
 	

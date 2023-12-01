@@ -14,10 +14,8 @@ public class DatabaseConnector {
 	private ConnectionSource connectionSource;
 	private String databaseUrl;
 	
-	public DatabaseConnector() {
-		this(Config.DATABASE_URL);
-	}
 	
+	public DatabaseConnector() { this(Config.DATABASE_URL); }
 	public DatabaseConnector(String databaseUrl) {
 		this.databaseUrl = databaseUrl;
 		try {
@@ -32,23 +30,25 @@ public class DatabaseConnector {
 		
 	}
 	
+	
 	private Dao<User, String> userDao;
 	public Dao<User, String> getUserDao() throws SQLException {
 		if(this.userDao == null) {
 			try {
 				this.userDao = DaoManager.createDao(this.connectionSource, User.class);
 				TableUtils.createTableIfNotExists(this.connectionSource, User.class);
+				return this.userDao;
 			} catch (SQLException e) {
 				System.err.println("Failed to retrieve userDao");
 				throw e;
 			}	
+		} else {
+			return this.userDao;	
 		}
-		return this.userDao;
 	}
 	
-	public void dropUser() throws SQLException {
-		TableUtils.dropTable(getUserDao(), true);
-	}
+	public void dropUser() throws SQLException { TableUtils.dropTable(getUserDao(), true); }
+	
 	
 	private Dao<Performance, String> performanceDao;
 	public Dao<Performance, String> getPerformanceDao() throws SQLException {
@@ -65,9 +65,8 @@ public class DatabaseConnector {
 		return this.performanceDao;
 	}
 	
-	public void dropPerformance() throws SQLException {
-		TableUtils.dropTable(getPerformanceDao(), true);
-	}
+	public void dropPerformance() throws SQLException { TableUtils.dropTable(getPerformanceDao(), true); }
+	
 	
 	private Dao<Reservation, String> reservationDao;
 	public Dao<Reservation, String> getReservationDao() throws SQLException {
@@ -84,7 +83,5 @@ public class DatabaseConnector {
 		return this.reservationDao;
 	}
 	
-	public void dropReservation() throws SQLException {
-		TableUtils.dropTable(getReservationDao(), true);
-	}
+	public void dropReservation() throws SQLException { TableUtils.dropTable(getReservationDao(), true); }
 }
