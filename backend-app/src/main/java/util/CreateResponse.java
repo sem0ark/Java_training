@@ -5,7 +5,23 @@ public class CreateResponse {
 	private String message;
 
 	public CreateResponse(int id, String message) {
-		this.id = id;
+		this.setId(id);
+		this.setMessage(message);
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
 		this.message = message;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 }

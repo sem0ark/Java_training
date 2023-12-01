@@ -5,15 +5,20 @@ import com.j256.ormlite.table.DatabaseTable;
  
 @DatabaseTable(tableName = "users")
 public class User {
-	@DatabaseField(generatedId = true)
+
+	public static final String ID_FIELD_NAME = "id";
+	@DatabaseField(generatedId = true, columnName = ID_FIELD_NAME)
 	private int id;
- 
-	@DatabaseField
+	
+	public static final String USERNAME_FIELD_NAME = "username";
+	@DatabaseField(canBeNull = false, columnName = USERNAME_FIELD_NAME)
     private String username;
- 
-	@DatabaseField
+
+	public static final String EMAIL_FIELD_NAME = "email";
+	@DatabaseField(canBeNull = false, columnName = EMAIL_FIELD_NAME)
 	private String email;
  
+
 	User() {
 		// for ORMLite
 	}

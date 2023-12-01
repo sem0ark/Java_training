@@ -13,10 +13,12 @@ import util.Message;
 import com.google.gson.Gson;
 
 class UserRoute {
+	private static final String prefix = "/users";
+	
 	public static void init(DatabaseConnector conn) {
 		Gson gson = new Gson();
 		
-		post("/users", (Request request, Response response) -> {
+		post(prefix, (Request request, Response response) -> {
             String username = request.queryParams("username");
             String email = request.queryParams("email");
      
@@ -24,19 +26,28 @@ class UserRoute {
             conn.getUserDao().create(user);
             
             response.status(201);
+			response.type("application/json");
             return new CreateResponse(user.getId(), "User created");
         }, gson::toJson);
         
         
-        get("/users/:id", (Request request, Response response) -> {
+        get(prefix + "/:id", (Request request, Response response) -> {
 			User user = conn.getUserDao().queryForId(request.params(":id"));
 			
 			if (user != null) {
-				return new Message("Username: " + user.getUsername());
+				response.status(200);
+				response.type("application/json");
+				return user;
 			} else {
 				response.status(404);
 				return new Message("User not found");
 			}
+        }, gson::toJson);
+        
+        get(prefix, (Request request, Response response) -> {
+        	response.status(200);
+			response.type("application/json");
+			return conn.getUserDao().queryForAll().toArray();
         }, gson::toJson);
 	} 
 }
