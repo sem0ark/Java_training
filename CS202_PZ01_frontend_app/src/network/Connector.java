@@ -10,7 +10,7 @@ public class Connector {
 	}
 	
 	
-	public getUsers() {
-		// HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-	}
+//	public getUsers() {
+//		// HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+//	}
 }
