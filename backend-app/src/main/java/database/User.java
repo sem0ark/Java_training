@@ -2,7 +2,12 @@ package database;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
- 
+
+/**
+ * 
+ * @author Arkadii
+ *
+ */
 @DatabaseTable(tableName = "users")
 public class User {
 
@@ -28,6 +33,11 @@ public class User {
 		this.email = email;
 	}
 	
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", username=" + username + ", email=" + email + "]";
+	}
+	
 	public int getId() {
 		return this.id;
 	}
@@ -46,10 +56,5 @@ public class User {
 	 
 	public void setEmail(String email) {
 		this.email = email;
-	}
-
-	@Override
-	public String toString() {
-		return "User [id=" + id + ", username=" + username + ", email=" + email + "]";
 	}
 }

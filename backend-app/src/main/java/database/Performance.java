@@ -1,9 +1,10 @@
 package database;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
-import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.stmt.PreparedQuery;
@@ -33,17 +34,24 @@ public class Performance {
 	
 	public static final String TICKET_FIELD_NAME = "ticketPrice";
 	@DatabaseField(canBeNull = false, columnName = TICKET_FIELD_NAME)
-	private int ticketPrice; // for simplicity the ticket price is set to whole
+	private Integer ticketPrice; // for simplicity the ticket price is set to whole
 	
-	public static PreparedQuery<Performance> queryFindNext(Dao<Performance, String> dao, int days) throws SQLException {
+	public static List<Performance> queryFindNext(DatabaseConnector conn, int days) {
 		Date start = Util.getNow();
 		Date end = Util.getNowAfterDays(days);
 		
-		System.out.println(start);
-		System.out.println(end);
+		try {
+			PreparedQuery<Performance> q = conn.getPerformanceDao().queryBuilder().where().between(DATE_FIELD_NAME, start, end).prepare();
+			System.out.println("INFO: query " + q.toString());
+			
+			return conn.getPerformanceDao().query(q);			
+		} catch (SQLException e) {
+			System.err.println("Failed running query");
+			e.printStackTrace(System.err);
+		}
 		
-		System.out.println(dao.queryBuilder().where().between(DATE_FIELD_NAME, start, end).prepare());
-		return dao.queryBuilder().where().between(DATE_FIELD_NAME, start, end).prepare();
+		return new ArrayList<Performance>();
+		
 	}
 
 	Performance() {
@@ -54,6 +62,12 @@ public class Performance {
 		this.playName = playName;
 		this.date = date;
 		this.ticketPrice = ticketPrice;
+	}
+	
+	@Override
+	public String toString() {
+		return "Performance [id=" + id + ", playName=" + playName + ", ticketPrice=" + ticketPrice
+				+ "]";
 	}
 	
 	public int getId() {
@@ -86,11 +100,5 @@ public class Performance {
 
 	public void setTicketPrice(int ticketPrice) {
 		this.ticketPrice = ticketPrice;
-	}
-
-	@Override
-	public String toString() {
-		return "Performance [id=" + id + ", playName=" + playName + ", ticketPrice=" + ticketPrice
-				+ "]";
 	}
 }

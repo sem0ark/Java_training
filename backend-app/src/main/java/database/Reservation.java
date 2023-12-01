@@ -1,7 +1,20 @@
 package database;
 
-import com.j256.ormlite.field.DatabaseField;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
+import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.stmt.PreparedQuery;
+import com.j256.ormlite.table.DatabaseTable;
+
+/**
+ * 
+ * @author Arkadii
+ *
+ */
+@DatabaseTable(tableName = "reservations")
 public class Reservation {
 	
 	public static final String ID_FIELD_NAME = "id";
@@ -19,11 +32,28 @@ public class Reservation {
 	public static final String SEATS_FIELD_NAME = "reservedSeats";
 	@DatabaseField(canBeNull = false, columnName = SEATS_FIELD_NAME)
 	private int reservedSeats;
+	
+	private Integer totalPrice;
 
-	@Override
-	public String toString() {
-		return "Reservation [perf=" + performance.getId() + ", user=" + user.getId() + ", reservedSeats=" + reservedSeats + "]";
-	}	
+	public static List<Reservation> queryFindByUser(DatabaseConnector conn, int userId) {
+		
+		try {
+			PreparedQuery<Reservation> q = conn.getReservationDao().queryBuilder().where().eq(USER_FIELD_NAME, userId).prepare();
+			System.out.println("INFO: query " + q.toString());
+			
+			Dao<Performance, String> performanceDao = conn.getPerformanceDao();
+			List<Reservation> result = conn.getReservationDao().query(q);
+			
+			for(Reservation r : result) r.calculateTotalPrice(performanceDao);			
+			return result;
+		} catch (SQLException e) {
+			System.err.println("Failed running query");
+			e.printStackTrace(System.err);
+		}
+		
+		return new ArrayList<Reservation>(); 
+	}
+	
 	
 	Reservation() {
 		// required for ORMlite
@@ -34,6 +64,21 @@ public class Reservation {
 		this.performance = performance;
 		this.user = user;
 		this.reservedSeats = reservedSeats;
+	}
+	
+	
+	public void calculateTotalPrice(Dao<Performance, String> dao)  {
+		try {
+			this.performance = dao.queryForId(Integer.toString(this.getPerformance().getId()));
+			this.setTotalPrice(this.performance.getTicketPrice() * this.reservedSeats);
+		} catch (SQLException e) {
+			this.setTotalPrice(0);
+		}
+	}
+	
+	@Override
+	public String toString() {
+		return "Reservation [perf=" + performance.getId() + ", user=" + user.getId() + ", reservedSeats=" + reservedSeats + "]";
 	}
 
 	public int getId() {
@@ -66,5 +111,13 @@ public class Reservation {
 
 	public void setReservedSeats(int reservedSeats) {
 		this.reservedSeats = reservedSeats;
+	}
+
+	public Integer getTotalPrice() {
+		return totalPrice;
+	}
+
+	public void setTotalPrice(Integer totalPrice) {
+		this.totalPrice = totalPrice;
 	}
 }

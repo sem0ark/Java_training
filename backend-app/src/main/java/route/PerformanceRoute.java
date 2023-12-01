@@ -1,12 +1,10 @@
 package route;
 
-import static spark.Spark.get;
-import static spark.Spark.post;
-
 import java.util.Date;
-
 import com.google.gson.Gson;
 
+import static spark.Spark.get;
+import static spark.Spark.post;
 import spark.Request;
 import spark.Response;
 
@@ -23,6 +21,8 @@ class PerformanceRoute {
 	
 	public static void init(DatabaseConnector conn) {
 		Gson gson = new Gson();
+		
+		
 		
 		post(prefix, (Request request, Response response) -> {
 			try {
@@ -42,11 +42,15 @@ class PerformanceRoute {
 			}
         }, gson::toJson);
 
-        get(prefix, (Request request, Response response) -> {
+        
+		
+		get(prefix, (Request request, Response response) -> {
         	response.status(200);
             response.type("application/json");
         	return conn.getPerformanceDao().queryForAll().toArray();
         }, gson::toJson);
+        
+        
         
         get(prefix + "/near", (Request request, Response response) -> {
         	try {
@@ -54,13 +58,13 @@ class PerformanceRoute {
 
         		response.status(200);
 	            response.type("application/json");
-            	return conn.getPerformanceDao()
-            			.query(Performance.queryFindNext(conn.getPerformanceDao(), days))
-            			.toArray();
+            	return Performance.queryFindNext(conn, days);
         	} catch (NumberFormatException e) {
 				throw new ValidationException(request.url() + ": Failed to parse days");
 			}
         }, gson::toJson);
+        
+        
         
 		get(prefix + "/:id", (Request request, Response response) -> {
 			try {
@@ -78,6 +82,6 @@ class PerformanceRoute {
 			response.status(404);
 			return new Message(request.url() + ": Performance with ID '" + request.params(":id") + "' doesn't exist");
 			
-        }, gson::toJson);        
+        }, gson::toJson);
 	}
 }

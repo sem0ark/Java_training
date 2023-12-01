@@ -67,7 +67,7 @@ public class DatabaseConnector {
 		if(this.reservationDao == null) {
 			try {
 				this.reservationDao = DaoManager.createDao(this.connectionSource, Reservation.class);
-				TableUtils.createTableIfNotExists(this.connectionSource, Performance.class);
+				TableUtils.createTableIfNotExists(this.connectionSource, Reservation.class);
 			} catch (SQLException e) {
 				System.err.println("Failed to retrieve reservationDao");
 				throw e;
