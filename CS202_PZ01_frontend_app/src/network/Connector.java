@@ -12,10 +12,12 @@ import java.net.http.HttpResponse;
 import java.lang.reflect.Type;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 
 import data_classes.Performance;
 import data_classes.PostID;
+import data_classes.Reservation;
 import data_classes.User;
 import util.SmallDate;
 
@@ -52,6 +54,8 @@ public class Connector {
 		} catch (IOException e) {
 			System.err.println("Connection failed");
 			e.printStackTrace();
+		} catch (JsonSyntaxException e) {
+			System.err.println("Failed parcing JSON contents.");
 		}
 	
 		return null;
@@ -147,6 +151,38 @@ public class Connector {
 			HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 			System.out.println(response.body());
 			return gson.fromJson(response.body(), new TypeToken<ArrayList<Performance>>(){}.getType());  
+		});
+	}
+	
+	public Reservation getReservation(int id) {
+		String urlString = "http://localhost:3000/reservations/" + id;
+		
+		return handleErrors(() -> {
+			HttpRequest request = new Request(urlString).initRequest().GET().build();
+			HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+			
+			System.out.println(response.body());
+			Reservation r = gson.fromJson(response.body(), Reservation.class);
+			r.setName();
+			return r;
+		});
+	}
+	
+	public List<Reservation> getReservationsByUser(Integer userId) {
+		String urlString = "http://localhost:3000/reservations/users/" + userId.toString();
+		
+		return handleErrors(() -> {
+			HttpRequest request = new Request(urlString).initRequest().GET().build();
+			HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+			
+			System.out.println(response.body());
+			ArrayList<Reservation> res = gson.fromJson(response.body(), new TypeToken<ArrayList<Reservation>>(){}.getType());
+			for(Reservation r : res) {
+				r.setName();
+				r.setDate();
+			}
+			
+			return res;
 		});
 	}
 	

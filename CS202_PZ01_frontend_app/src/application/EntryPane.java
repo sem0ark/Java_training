@@ -24,12 +24,17 @@ public class EntryPane extends TabPane {
 	};
 	
 	public EntryPane(Connector conn) {
-		super();
-		this.conn = conn;
-		addEntryTabs();
+		this(conn, true);
 	}
 	
-	public void addEntryTabs() {
+	public EntryPane(Connector conn, boolean autoInit) {
+		super();
+		this.conn = conn;
+		
+		if(autoInit) initTabs();
+	}
+	
+	public void initTabs() {
 		Tab tab;
 		
 		tab = new Tab("Performances", makePerformancesPane());
@@ -45,10 +50,6 @@ public class EntryPane extends TabPane {
 			else b.setCenter(makePerformanceTableNear(e, performanceHandler));
 		}));
 		BorderPane.setMargin(b.getTop(), new Insets(10));
-		
-		System.out.println(new SmallDate(System.currentTimeMillis()).toString()); 
-		
-		
 		return b;
 	}
 	
@@ -56,7 +57,7 @@ public class EntryPane extends TabPane {
 		return (new TableBuilder<Performance>())
 				.setHandler(handler)
 				.<String>addColumn("Play", "playName")
-				.<SmallDate>addColumn("Date", "date")
+				.<SmallDate>addColumn("Date", "date_s")
 				.<Integer>addColumn("Price ($)", "ticketPrice")
 			.addAll(conn.getPerformances()).build();
 	}
@@ -65,7 +66,7 @@ public class EntryPane extends TabPane {
 		return (new TableBuilder<Performance>())
 				.setHandler(handler)
 				.<String>addColumn("Play", "playName")
-				.<SmallDate>addColumn("Date", "date")
+				.<SmallDate>addColumn("Date", "date_s")
 				.<Integer>addColumn("Price ($)", "ticketPrice")
 			.addAll(conn.getPerformances(days)).build();
 	}

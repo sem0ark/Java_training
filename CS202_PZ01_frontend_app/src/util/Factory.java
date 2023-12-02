@@ -1,5 +1,6 @@
 package util;
 
+import java.util.Arrays;
 import java.util.Optional;
 import java.util.function.Consumer;
 
@@ -20,10 +21,13 @@ import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.chart.XYChart.Data;
 import javafx.scene.chart.XYChart.Series;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
@@ -382,25 +386,26 @@ public class Factory {
 		Optional<Pair<String, String>> result = dialog.showAndWait();
 		result.ifPresent(handler);
 	}
+	
+	public static <T> void runChoiceDialog(String title, String header, String content, T[] values, Consumer<T> handler) {
+		ChoiceDialog<T> dialog = new ChoiceDialog<>(values[0], Arrays.asList(values));
+		dialog.setTitle(title);
+		dialog.setHeaderText(header);
+		dialog.setContentText(content);
+
+		Optional<T> result = dialog.showAndWait();
+		result.ifPresent(handler);
+	}
+
+	public static void runInfoDialog(String title, String header, String content) {
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle(title);
+		alert.setHeaderText(header);
+		alert.setContentText(content);
+
+		alert.showAndWait();
+	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
