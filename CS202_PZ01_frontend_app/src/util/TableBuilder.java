@@ -3,6 +3,7 @@ package util;
 import java.util.Collection;
 
 import javafx.scene.control.Label;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -16,8 +17,8 @@ public class TableBuilder<T> {
 	}
 	
 	public TableBuilder(String placeholder) {
+		this();
 		this.placeholder = placeholder;
-		this.tableView = new TableView<>();
 		this.tableView.setPlaceholder(new Label(this.placeholder));
 	}
 	
@@ -25,6 +26,16 @@ public class TableBuilder<T> {
 		TableColumn<T, E> column = new TableColumn<>(name);
 		column.setCellValueFactory(new PropertyValueFactory<>(value));
 		this.tableView.getColumns().add(column);
+		return this;
+	}
+	
+	public TableBuilder<T> setSingleSelect() {
+		this.tableView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+		return this;
+	}
+	
+	public TableBuilder<T> setMultipleSelect() {
+		this.tableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 		return this;
 	}
 	

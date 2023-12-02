@@ -34,8 +34,9 @@ public class App extends Application {
 	// sample login action
 	private void decideOnEnter() {
 		Factory.runLoginDialog("Login to the app", "", (t -> {
-			if(t.getKey() == "admin" && t.getValue() == "admin") root.setCenter(new AdminPane(conn));
-			else if(t.getKey() == "user" && t.getValue() == "user") root.setCenter(new UserPane(conn));
+			if(t.getKey().equals("admin") && t.getValue().equals("admin")) root.setCenter(new AdminPane(conn));
+			else if(t.getKey().equals("user") && t.getValue().equals("user")) root.setCenter(new UserPane(conn));
+			else this.root.setCenter(null);
 		}));
 		
 		if(this.root.getCenter() == null) root.setCenter(new EntryPane(conn));
