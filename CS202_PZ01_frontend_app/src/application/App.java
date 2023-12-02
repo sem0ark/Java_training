@@ -4,7 +4,6 @@ import network.Connector;
 import util.Factory;
 import javafx.application.Application;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -12,6 +11,7 @@ import javafx.stage.Stage;
 public class App extends Application {
 	Connector conn;
 	BorderPane root;
+	
 	
 	@Override
 	public void start(Stage primaryStage) {
@@ -35,8 +35,9 @@ public class App extends Application {
 	private void decideOnEnter() {
 		Factory.runLoginDialog("Login to the app", "", (t -> {
 			if(t.getKey().equals("admin") && t.getValue().equals("admin")) root.setCenter(new AdminPane(conn));
-			else if(t.getKey().equals("user") && t.getValue().equals("user")) root.setCenter(new UserPane(conn));
-			else this.root.setCenter(null);
+			else if(t.getKey().equals("user")) {
+				root.setCenter(new UserPane(conn, t.getValue()));
+			} else this.root.setCenter(null);
 		}));
 		
 		if(this.root.getCenter() == null) root.setCenter(new EntryPane(conn));
