@@ -131,7 +131,9 @@ public class Factory {
 	}
 	
 	public static GridPane makeGrid2DArr(Node[][] nodes, double w, double h) {
-		GridPane grid = new GridPane(w, h);
+		GridPane grid = new GridPane();
+		grid.setPrefWidth(w);
+		grid.setPrefHeight(h);
 		
 		for(int i=0; i<nodes.length; i++)
 			for(int j=0; j<nodes[i].length; j++)

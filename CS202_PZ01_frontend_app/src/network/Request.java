@@ -21,25 +21,15 @@ public class Request {
 		this.url = urlString;
 	}
 
-	public String getContentType() {
-		return contentType;
-	}
+	public String getContentType() { return contentType; }
+	public void setContentType(String contentType) { this.contentType = contentType; }
 
-	public void setContentType(String contentType) {
-		this.contentType = contentType;
-	}
-
-	public Duration getRequestTimeout() {
-		return requestTimeout;
-	}
-
-	public void setRequestTimeout(int ms) {
-		this.requestTimeout = Duration.ofMillis(ms);
-	}
+	public Duration getRequestTimeout() { return requestTimeout; }
+	public void setRequestTimeout(int ms) { this.requestTimeout = Duration.ofMillis(ms); }
 	
 	public HttpRequest.Builder initRequest() throws URISyntaxException {
 		HttpRequest.Builder b = HttpRequest.newBuilder()
-				.uri(URI.create(this.url + this.getParamsString()))
+				.uri(new URI(this.url + (this.params == null ? "" : this.getParamsString())))
 				.header("Accept", this.contentType);
 		
 		if(this.requestTimeout != null) b = b.timeout(this.requestTimeout);

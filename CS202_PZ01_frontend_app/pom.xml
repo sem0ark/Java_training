@@ -1,16 +1,60 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>com.cs202pz</groupId>
-  <artifactId>frontend-app</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <name>CS202_PZ01_frontend</name>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.cs202pz</groupId>
+	<artifactId>frontend-app</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>CS202_PZ01_frontend</name>
   
-  <dependencies>
-	<!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
-	<dependency>
-	    <groupId>com.google.code.gson</groupId>
-	    <artifactId>gson</artifactId>
-	    <version>2.10.1</version>
-	</dependency>
-</dependencies>
+ 	<dependencies>
+		<!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
+		<dependency>
+		    <groupId>com.google.code.gson</groupId>
+		    <artifactId>gson</artifactId>
+		    <version>2.10.1</version>
+		</dependency>
+		
+		<!-- https://stackoverflow.com/questions/56894627/how-to-fix-error-javafx-runtime-components-are-missing-and-are-required-to-ru -->
+		<dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-base</artifactId>
+            <version>12</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
+            <version>12</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-graphics</artifactId>
+            <version>12</version>
+            <classifier>win</classifier>
+        </dependency>
+
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-fxml</artifactId>
+            <version>12</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-web</artifactId>
+            <version>12</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-media</artifactId>
+            <version>12</version>
+        </dependency>
+        
+        <dependency>
+        	<groupId>org.openjfx</groupId>
+        	<artifactId>javafx-swing</artifactId>
+        	<version>12</version>
+    	</dependency>
+	</dependencies>
 </project>
