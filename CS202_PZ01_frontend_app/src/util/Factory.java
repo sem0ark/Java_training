@@ -322,6 +322,10 @@ public class Factory {
 		public void handle(T value);
 	}
 	
+	public interface OuterHandler<T, P> {
+		public void handle(T value, P parent);
+	}
+	
 	/////////////// DIALOGS
 	public interface DialogValueHandler<T> {
 		public void handle(T value);

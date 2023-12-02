@@ -29,7 +29,7 @@ public class Request {
 	
 	public HttpRequest.Builder initRequest() throws URISyntaxException {
 		HttpRequest.Builder b = HttpRequest.newBuilder()
-				.uri(new URI(this.url + (this.params == null ? "" : this.getParamsString())))
+				.uri(new URI(this.url + this.getParamsString()))
 				.header("Accept", this.contentType);
 		
 		if(this.requestTimeout != null) b = b.timeout(this.requestTimeout);
@@ -49,9 +49,12 @@ public class Request {
 	
 	@SuppressWarnings("deprecation")
 	private String getParamsString() {
+		if(this.params == null || this.params.isEmpty()) return "";
+		
 		StringBuilder result = new StringBuilder();
-
-		for (Map.Entry<String, String> entry : params.entrySet()) {
+		
+		result.append("?");
+		for (Map.Entry<String, String> entry : this.params.entrySet()) {
 			result.append(URLEncoder.encode(entry.getKey()));
 	        result.append("=");
 	        result.append(URLEncoder.encode(entry.getValue()));

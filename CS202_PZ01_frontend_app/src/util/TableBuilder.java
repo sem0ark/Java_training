@@ -7,6 +7,8 @@ import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import util.Factory.Handler;
+import util.Factory.OuterHandler;
 
 public class TableBuilder<T> {
 	private TableView<T> tableView;
@@ -36,6 +38,20 @@ public class TableBuilder<T> {
 	
 	public TableBuilder<T> setMultipleSelect() {
 		this.tableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+		return this;
+	}
+	
+	public TableBuilder<T> setHandler(Handler<T> handler) {
+		this.tableView.getSelectionModel().selectedItemProperty().addListener((ov, o, n) -> {
+			handler.handle(n);
+		});
+		return this;
+	}
+	
+	public TableBuilder<T> setHandler(OuterHandler<T, TableView<T>> handler) {
+		this.tableView.getSelectionModel().selectedItemProperty().addListener((ov, o, n) -> {
+			handler.handle(n, this.tableView);
+		});
 		return this;
 	}
 	

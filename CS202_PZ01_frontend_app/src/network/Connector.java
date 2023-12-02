@@ -15,7 +15,9 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import data_classes.Performance;
+import data_classes.PostID;
 import data_classes.User;
+import util.SmallDate;
 
 public class Connector {
 	HttpClient client;
@@ -53,7 +55,50 @@ public class Connector {
 		}
 	
 		return null;
-	} 
+	}
+	
+	public Integer addUser(String username, String email) {
+		String urlString = "http://localhost:3000/users";
+		
+		return handleErrors(() -> {
+			HttpRequest request = new Request(urlString).setParams("username", username, "email", email)
+					.initRequest().POST(HttpRequest.BodyPublishers.noBody()).build();
+			HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+			System.out.println(response.body());
+			
+			return gson.fromJson(response.body(), PostID.class);
+		}).id;
+	}
+	
+	public Integer addPerformance(String playName, SmallDate date, Integer price) {
+		String urlString = "http://localhost:3000/perfromances";
+		
+		return handleErrors(() -> {
+			HttpRequest request = new Request(urlString)
+					.setParams("play", playName, "date", date.toString(), "price", price.toString())
+					.initRequest().POST(HttpRequest.BodyPublishers.noBody()).build();
+			
+			HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+			System.out.println(response.body());
+			
+			return gson.fromJson(response.body(), PostID.class);
+		}).id;
+	}
+	
+	public Integer addReservation(Integer userId, Integer performanceId, Integer seats) {
+		String urlString = "http://localhost:3000/reservations";
+		
+		return handleErrors(() -> {
+			HttpRequest request = new Request(urlString)
+					.setParams("user", userId.toString(), "performance", performanceId.toString(), "seats", seats.toString())
+					.initRequest().POST(HttpRequest.BodyPublishers.noBody()).build();
+			
+			HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+			System.out.println(response.body());
+			
+			return gson.fromJson(response.body(), PostID.class);
+		}).id;
+	}
 	
 	public User getUser(int id) {
 		String urlString = "http://localhost:3000/users/" + id;
@@ -100,6 +145,7 @@ public class Connector {
 			HttpRequest request = new Request(urlString).initRequest().GET().build();
 			
 			HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+			System.out.println(response.body());
 			return gson.fromJson(response.body(), new TypeToken<ArrayList<Performance>>(){}.getType());  
 		});
 	}
@@ -113,6 +159,7 @@ public class Connector {
 					.initRequest().GET().build();
 			
 			HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+			System.out.println(response.body());
 			return gson.fromJson(response.body(), new TypeToken<ArrayList<Performance>>(){}.getType());  
 		});
 	}
