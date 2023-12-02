@@ -11,7 +11,7 @@ import javafx.animation.SequentialTransition;
 import javafx.animation.Timeline;
 
 import javafx.application.Platform;
-
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 
@@ -23,6 +23,7 @@ import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
@@ -58,6 +59,22 @@ public class Factory {
 		Button btn = new Button(content);
 		btn.setOnAction(e);
 		return btn;
+	}
+	
+	public static <T> ChoiceBox<T> choice(T[] values) {
+		return new ChoiceBox<T>(FXCollections.observableArrayList(values));
+	}
+	
+	public static <T> ChoiceBox<T> choice(T[] values, Handler<T> handler) {
+		ChoiceBox<T> cb = Factory.<T>choice(values);
+
+		cb.getSelectionModel().selectedIndexProperty().addListener((ov, o, n) -> {
+			handler.handle(values[
+			    Math.min(Math.max(n.intValue(), 0), values.length-1)
+		    ]);
+		});
+		cb.getSelectionModel().selectFirst();
+		return cb;
 	}
 	
 	///////////// GRID FACTORY
@@ -123,17 +140,6 @@ public class Factory {
 		
 		return res;
 	}
-	
-//	public static SwitchButton[][] makeSwitchButtonGrid(String[] lbls, EventHandler<ActionEvent> handler, int w, int h) {
-//		SwitchButton[][] res = new SwitchButton[h][w];
-//		for(int i=0; i<h; i++) {
-//			for(int j=0; j<w; j++) {
-//				 res[i][j] = new SwitchButton(lbls, handler);
-//			}
-//		}
-//		
-//		return res;
-//	}
 	
 	public static GridPane makeGrid2DArr(Node[][] nodes) {
 		GridPane grid = new GridPane();
@@ -312,7 +318,9 @@ public class Factory {
 	/////////////// HANDLERS
 	public static EventHandler<ActionEvent> Exit = e -> System.exit(0);
 	
-	
+	public interface Handler<T> {
+		public void handle(T value);
+	}
 	
 	/////////////// DIALOGS
 	public interface DialogValueHandler<T> {

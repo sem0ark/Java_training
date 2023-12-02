@@ -1,19 +1,16 @@
 package application;
 
-import java.time.Instant;
-import java.util.Date;
 
 import data_classes.Performance;
-import data_classes.User;
+import javafx.geometry.Insets;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.TableView;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
 import network.Connector;
 import util.Factory;
 import util.SmallDate;
 import util.TableBuilder;
-//import util.Factory;
 
 public class EntryPane extends TabPane {
 	Connector conn;
@@ -35,16 +32,31 @@ public class EntryPane extends TabPane {
 	private BorderPane makePerformancesPane() {
 		BorderPane b = new BorderPane();
 		
+		b.setTop(Factory.choice(new Integer[] {0, 5, 10, 30, 100}, e -> {
+			if(e == 0) b.setCenter(makePerformanceTable());
+			else b.setCenter(makePerformanceTable());
+		}));
+		BorderPane.setMargin(b.getTop(), new Insets(10));
+		
 		System.out.println(new SmallDate(System.currentTimeMillis()).toString()); 
 		
-		b.setCenter(
-			(new TableBuilder<Performance>())
-				.<String>addColumn("Play", "playName")
-				.<SmallDate>addColumn("Date", "date")
-				.<Integer>addColumn("Price ($)", "ticketPrice")
-			.addAll(conn.getPerformances()).build()
-		);
+		
 		return b;
 	}
 	
+	TableView<Performance> makePerformanceTable() {
+		return (new TableBuilder<Performance>())
+				.<String>addColumn("Play", "playName")
+				.<SmallDate>addColumn("Date", "date")
+				.<Integer>addColumn("Price ($)", "ticketPrice")
+			.addAll(conn.getPerformances()).build();
+	}
+	
+	TableView<Performance> makePerformanceTableNear(int days) {
+		return (new TableBuilder<Performance>())
+				.<String>addColumn("Play", "playName")
+				.<SmallDate>addColumn("Date", "date")
+				.<Integer>addColumn("Price ($)", "ticketPrice")
+			.addAll(conn.getPerformances(days)).build();
+	}
 }

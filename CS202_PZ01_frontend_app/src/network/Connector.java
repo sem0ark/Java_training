@@ -103,4 +103,17 @@ public class Connector {
 			return gson.fromJson(response.body(), new TypeToken<ArrayList<Performance>>(){}.getType());  
 		});
 	}
+	
+	public List<Performance> getPerformances(Integer days) {
+		String urlString = "http://localhost:3000/performances/near";
+		
+		return handleErrors(() -> {
+			HttpRequest request = new Request(urlString)
+					.setParams("days", days.toString())
+					.initRequest().GET().build();
+			
+			HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+			return gson.fromJson(response.body(), new TypeToken<ArrayList<Performance>>(){}.getType());  
+		});
+	}
 }
