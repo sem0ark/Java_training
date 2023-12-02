@@ -13,6 +13,12 @@ import util.TableBuilder;
 import util.Factory.OuterHandler;
 import util.SmallDate;
 
+/**
+ * 
+ * @author Arkadii
+ * @description Main class for authorized user interactions, which implement the basic behavior (EntryPane) as well as reserving performance places. 
+ *
+ */
 public class UserPane extends EntryPane {
 	
 	private User user;

@@ -6,20 +6,37 @@ import javafx.scene.layout.BorderPane;
 import network.Connector;
 import util.TableBuilder;
 
+/**
+ * 
+ * @author Arkadii
+ * @description Class for admin usage, it contains forms and tables and reviewing and adding data to the database. 
+ *
+ */
 public class AdminPane extends EntryPane {
 
+	/**
+	 * @param conn
+	 */
 	public AdminPane(Connector conn) {
-		super(conn);
-		addAdminTabs();
-		System.out.println("Init admin");
+		this(conn, true);
 	}
 	
-	private void addAdminTabs() {
+	public AdminPane(Connector conn, boolean autoInit) {
+		super(conn);
+		
+		if(autoInit) initTabs();
+	}
+	
+	
+	@Override
+	public void initTabs() {
+		this.getTabs().clear();
+		super.initTabs();
 		Tab tab;
 		
-		tab = new Tab("User", makeUsersPane());
+		tab = new Tab("Users", makeUsersPane());
 		tab.setClosable(false);
-		super.getTabs().add(tab);
+		this.getTabs().add(tab);
 	}
 	
 	private BorderPane makeUsersPane() {
