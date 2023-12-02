@@ -66,7 +66,7 @@ public class UserPane extends EntryPane {
 		super.initTabs();
 		Tab tab;
 		
-		tab = new Tab("Performances", makeReservationPane());
+		tab = new Tab("Reservations", makeReservationPane());
 		tab.setClosable(false);
 		this.getTabs().add(tab);
 	}
