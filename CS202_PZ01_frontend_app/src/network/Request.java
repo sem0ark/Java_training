@@ -22,10 +22,10 @@ public class Request {
 	}
 
 	public String getContentType() { return contentType; }
-	public void setContentType(String contentType) { this.contentType = contentType; }
+	public Request setContentType(String contentType) { this.contentType = contentType; return this; }
 
 	public Duration getRequestTimeout() { return requestTimeout; }
-	public void setRequestTimeout(int ms) { this.requestTimeout = Duration.ofMillis(ms); }
+	public Request setRequestTimeout(int ms) { this.requestTimeout = Duration.ofMillis(ms); return this; }
 	
 	public HttpRequest.Builder initRequest() throws URISyntaxException {
 		HttpRequest.Builder b = HttpRequest.newBuilder()
@@ -36,13 +36,15 @@ public class Request {
 		return b;
 	}
 	
-	public void setParams(String... args) {
+	public Request setParams(String... args) {
 		assert args.length % 2 == 0 : "params require key-value pairs";
 		
 		this.params = new HashMap<>();
 		for(int i=0; i<args.length; i += 2) {
 			this.params.put(args[i], args[i+1]);	
 		}
+		
+		return this;
 	}
 	
 	@SuppressWarnings("deprecation")

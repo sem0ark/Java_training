@@ -1,11 +1,15 @@
 package util;
 
+import java.util.Optional;
+import java.util.function.Consumer;
+
 import javafx.animation.Animation;
 import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
 import javafx.animation.PauseTransition;
 import javafx.animation.SequentialTransition;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -13,19 +17,25 @@ import javafx.scene.Node;
 import javafx.scene.chart.XYChart.Data;
 import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.util.Duration;
+import javafx.util.Pair;
 
 public class Factory {
 
@@ -293,6 +303,66 @@ public class Factory {
 		}
 	}
 	
+	
 	/////////////// HANDLERS
 	public static EventHandler<ActionEvent> Exit = e -> System.exit(0);
+	
+	
+	
+	/////////////// DIALOGS
+	public interface DialogValueHandler<T> {
+		public void handle(T value);
+	}
+	
+	public static void runTextDialog(String title, String header, String content, Consumer<String> handler) {
+		TextInputDialog dialog = new TextInputDialog("walter");
+		dialog.setTitle(title);
+		dialog.setHeaderText(header);
+		dialog.setContentText(content);
+
+		Optional<String> result = dialog.showAndWait();
+		result.ifPresent(handler);
+	}
+	
+	public static void runLoginDialog(String title, String header, String content, Consumer<Pair<String, String>> handler) {
+		// Create the custom dialog.
+		Dialog<Pair<String, String>> dialog = new Dialog<>();
+		dialog.setTitle("Login Dialog");
+		dialog.setHeaderText("Look, a Custom Login Dialog");
+
+		// Set the button types.
+		ButtonType loginButtonType = new ButtonType("Login", ButtonData.OK_DONE);
+		dialog.getDialogPane().getButtonTypes().addAll(loginButtonType, ButtonType.CANCEL);
+
+		// Create the username and password labels and fields.
+		GridPane grid = new GridPane();
+		grid.setHgap(10);
+		grid.setVgap(10);
+		grid.setPadding(new Insets(20, 150, 10, 10));
+
+		TextField username = new TextField(); username.setPromptText("Username");
+		PasswordField password = new PasswordField(); password.setPromptText("Password");
+
+		grid.add(new Label("Username:"), 0, 0); grid.add(username, 1, 0);
+		grid.add(new Label("Password:"), 0, 1); grid.add(password, 1, 1);
+
+		// Enable/Disable login button depending on whether a username was entered.
+		Node loginButton = dialog.getDialogPane().lookupButton(loginButtonType);
+		loginButton.setDisable(true);
+
+		// Do some validation (using the Java 8 lambda syntax).
+		username.textProperty().addListener((observable, oldValue, newValue) -> {
+		    loginButton.setDisable(newValue.trim().isEmpty());
+		});
+
+		dialog.getDialogPane().setContent(grid);
+		Platform.runLater(() -> username.requestFocus()); // Request focus by default.
+		dialog.setResultConverter(dialogButton -> {
+		    if (dialogButton == loginButtonType) return new Pair<>(username.getText(), password.getText());
+		    return null;
+		});
+
+		Optional<Pair<String, String>> result = dialog.showAndWait();
+		result.ifPresent(handler);
+	}
 }

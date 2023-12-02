@@ -1,29 +1,26 @@
 package application;
 	
-
 import network.Connector;
-import util.Factory;
 
 import javafx.application.Application;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 
 public class App extends Application {
+	Connector conn;
+	
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			GridPane root = new GridPane();
+			this.conn = new Connector();
+			
+			BorderPane root = new BorderPane();
 			Scene scene = new Scene(root,400,400);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			
-			
-			root.add(Factory.button("Print Users", e -> {
-				Connector conn = new Connector();
-				System.out.println(conn.getUsers());
-			}), 0, 0);
-			
+			root.setCenter(new TestPane(conn));
 			
 			primaryStage.setScene(scene);
 			primaryStage.show();
