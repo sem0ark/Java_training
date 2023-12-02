@@ -21,6 +21,13 @@ import data_classes.Reservation;
 import data_classes.User;
 import util.SmallDate;
 
+/**
+ * 
+ * @author Arkadii
+ * @description A facade for interactions between front-end and back-end parts of the project.
+ * 				It implements main data request methods to quickly get the required information without worrying about the networking part.  
+ *
+ */
 public class Connector {
 	HttpClient client;
 	Gson gson;

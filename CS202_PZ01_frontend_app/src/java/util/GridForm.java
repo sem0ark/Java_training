@@ -6,6 +6,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 
+/**
+ * 
+ * @author Arkadii
+ * @description Factory for making a sample UI to implement a form handling. Can be later used in the application admin pane.
+ *
+ */
 public class GridForm extends GridPane {
 	private TextField[] inputs;
 	private boolean required_fields;

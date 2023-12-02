@@ -4,6 +4,12 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * 
+ * @author Arkadii
+ * @description Simple Date class for making the date a bit shorter with toString method.  
+ *
+ */
 public class SmallDate extends Date {
 	private static final long serialVersionUID = 8491158565529631701L;
 

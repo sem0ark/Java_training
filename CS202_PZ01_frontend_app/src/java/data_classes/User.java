@@ -1,5 +1,10 @@
 package data_classes;
-
+/**
+ * 
+ * @author Arkadii
+ * @description User data class used for storing data form the back-end and simply presenting it.
+ *
+ */
 public class User {
 	public int id;
 	public int getId() { return id; }

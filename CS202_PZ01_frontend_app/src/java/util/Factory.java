@@ -47,6 +47,13 @@ import javafx.scene.text.Font;
 import javafx.util.Duration;
 import javafx.util.Pair;
 
+/**
+ * 
+ * @author Arkadii
+ * @description Utility class implementing standard Factory Methods for making different UI elements.
+ * 				It provides some useful interfaces and functions for quickly building the UI.
+ *
+ */
 public class Factory {
 
 	///////////// FACTORY

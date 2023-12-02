@@ -2,6 +2,12 @@ package data_classes;
 
 import util.SmallDate;
 
+/**
+ * 
+ * @author Arkadii
+ * @description Reservation data class used for storing data form the back-end and simply presenting it.
+ *
+ */
 public class Reservation {
 	public User user;
 	public User getUser() { return user; }

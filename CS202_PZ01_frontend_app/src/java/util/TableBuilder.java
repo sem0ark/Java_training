@@ -10,6 +10,13 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import util.Factory.Handler;
 import util.Factory.OuterHandler;
 
+/**
+ * 
+ * @author Arkadii
+ * @descrpition Builder class and declaratively implementing TableView elements. It allows us to make the table components ASAP.
+ *
+ * @param <T> type of Data entity the table is used for
+ */
 public class TableBuilder<T> {
 	private TableView<T> tableView;
 	private String placeholder = "No Rows";

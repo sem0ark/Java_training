@@ -10,6 +10,12 @@ import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * 
+ * @author Arkadii
+ * @description Builder class for creating HttpClient requests, it hides some of the standard HttpClient methods, making the requests a bit easier to manage.
+ *
+ */
 public class Request {
 	private String url;
 	private Map<String, String> params;
@@ -48,7 +54,7 @@ public class Request {
 	}
 	
 	@SuppressWarnings("deprecation")
-	private String getParamsString() {
+	public String getParamsString() {
 		if(this.params == null || this.params.isEmpty()) return "";
 		
 		StringBuilder result = new StringBuilder();

@@ -4,6 +4,12 @@ import java.util.Date;
 
 import util.SmallDate;
 
+/**
+ * 
+ * @author Arkadii
+ * @description Performance data class used for storing data form the back-end and simply presenting it.
+ *
+ */
 public class Performance {
 	public int id;
 	public int getId() { return id; }
