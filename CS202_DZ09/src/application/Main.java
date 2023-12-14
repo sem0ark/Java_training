@@ -36,7 +36,7 @@ public class Main extends Application {
 	        	try {
 	        		while (true) {
 	        			r.setFill(Factory.visible ? Factory.getRandomColor() : Color.BLACK);
-	        			Thread.sleep(500);
+	        			Thread.sleep(5000);
 		        	}					
 				} catch (InterruptedException e) {
 					e.printStackTrace();	
@@ -47,7 +47,7 @@ public class Main extends Application {
 	        	try {
 	        		while (true) {
 	        			Factory.visible = !Factory.visible;
-	        			Thread.sleep(1000);
+	        			Thread.sleep(10000);
 		        	}
 				} catch (InterruptedException e) {
 					e.printStackTrace();
