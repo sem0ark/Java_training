@@ -20,7 +20,7 @@ import cli.ProgressBar;
 /**
  * 
  * @author Arkadii Semenov 5833 SI FIT
- * @description Create a JavaFX application that loads all tutorial sections from https://www.tutorialspoint.com/python/.
+ * @description Create a application that loads all tutorial sections from https://www.tutorialspoint.com/python/.
  * 			   During the duration of the download, the application should display a progress bar that updates as the tutorials are downloaded. 
  * 			   Use separate threads to download and update progress bar.
  */

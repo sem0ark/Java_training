@@ -1,4 +1,4 @@
-package utils;
+package util;
 
 import javafx.animation.Animation;
 import javafx.animation.FadeTransition;
@@ -14,15 +14,23 @@ import javafx.scene.chart.XYChart.Data;
 import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.util.Duration;
 
 public class Factory {
-
+	public static boolean visible = true;
+	
 	///////////// FACTORY
 	
 	public static Label label(String name) {
@@ -77,7 +85,7 @@ public class Factory {
 		return tf;
 	}
 	
-	public static TextField addLabeledTextInput(GridPane grid, String label, int row, int width, String text) {
+	public static TextField addNonEditableLabeledTextInput(GridPane grid, String label, int row, int width, String text) {
 		TextField tf = new TextField(text);
 		tf.setEditable(false);
 		tf.setStyle("-fx-background-color: #cccccc; -fx-text-fill: #eeeeee;");
@@ -210,9 +218,91 @@ public class Factory {
 		
 		return tabPane;
 	}
+
 	/////////////// MENUS
+	public static MenuBar makeMenuBar(Menu[] menus) {
+		MenuBar bar = new MenuBar();
+		for(Menu i : menus) bar.getMenus().add(i);
+		return bar;
+	}
 	
+	public static Menu makeMenu(String menuName, String[] children) {
+		Menu menu = new Menu(menuName);
+		for(String i : children) menu.getItems().add(new MenuItem(i));
+		return menu;
+	}
+	
+	public static Menu makeMenu(String menuName, String[] children, EventHandler<ActionEvent>[] handlers) {
+		assert children.length == handlers.length : "children and handlers arrays should be the same length";
+		Menu menu = new Menu(menuName);
+		
+		for(int i=0; i<children.length; i++) {
+			MenuItem item = new MenuItem(children[i]);
+			if(handlers[i] != null) item.setOnAction(handlers[i]);
+			menu.getItems().add(item);
+		}
+		
+		return menu;
+	}
+	
+	public static Menu makeMenu(String menuName, String[] children, EventHandler<ActionEvent>[] handlers, KeyCombination[] accelerators) {
+		assert children.length == handlers.length && handlers.length == accelerators.length: "arrays should be the same length";
+		Menu menu = new Menu(menuName);
+		
+		for(int i=0; i < children.length; i++) {
+			MenuItem item = new MenuItem(children[i]);
+			if(handlers[i] != null) item.setOnAction(handlers[i]);
+			if(accelerators[i] != null) item.setAccelerator(accelerators[i]);
+			menu.getItems().add(item);
+		}
+		
+		return menu;
+	}
+	
+	
+	/////////////// Buttons
+	
+	public static RadioButton makeRadio(String label) {
+		return new RadioButton(label);
+	}
+	
+	public static <T> RadioButton makeRadio(String label, T value) {
+		RadioButton r = new RadioButton(label);
+		r.setUserData(value);
+		return r;
+	}
+	
+	public static <T> RadioButton[] makeRadios(String[] labels, T[] values) {
+		assert labels.length == values.length : "Assumed to have the same length";
+		
+		
+		RadioButton[] res = new RadioButton[labels.length]; 
+		for(int i=0; i<labels.length; i++) {
+			res[i] = Factory.makeRadio(labels[i], values[i]);
+		}
+		return res;
+	}
+	
+	public static void setToggleGroup(ToggleGroup tg, RadioButton[] rbs) {
+		for(RadioButton i : rbs) i.setToggleGroup(tg);
+	}
+	
+	public static void addRadioButtons2Grid(GridPane grid, int startRow, RadioButton[] rbs) {
+		for(int i=0; i<rbs.length; i++) {
+			grid.add(rbs[i], 0, startRow + i);
+		}
+	}
 	
 	/////////////// HANDLERS
 	public static EventHandler<ActionEvent> Exit = e -> System.exit(0);
+	
+	
+	////////////// Colors
+	public static Color getRandomColor() {
+		return Color.rgb(
+			(int) (Math.random() * 255),
+			(int) (Math.random() * 255),
+			(int) (Math.random() * 255)
+		);
+	}
 }

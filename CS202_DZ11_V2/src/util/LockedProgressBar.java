@@ -1,15 +1,18 @@
-package cli;
+package util;
 
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 
-public class ProgressBar implements Runnable {
+import javafx.scene.control.ProgressBar;
+
+public class LockedProgressBar extends ProgressBar implements Runnable {
 	private int total, length;
 	private Condition update, updated;
 	private Lock lock;
 	private String message;
-	
-	public ProgressBar(int total, int length, String message, Lock lock, Condition update, Condition updated) {
+
+	public LockedProgressBar(int total, int length, String message, Lock lock, Condition update, Condition updated) {
+		super();
 		this.update = update;
 		this.updated = updated;
 		this.lock = lock;
@@ -17,7 +20,8 @@ public class ProgressBar implements Runnable {
 		this.length = length;
 		this.message = message;
 	}
-
+	
+	@Override
 	public void run() {
 		this.lock.lock();
 		try {
@@ -36,16 +40,8 @@ public class ProgressBar implements Runnable {
 	}
 	
 	public void drawProgress(double v) {
-		double q = v / (double) total;
-		int percent = (int) Math.ceil(q * 100);
-		int chars = (int) Math.ceil(q * length); 
-
-		String line = "[ "  + "=".repeat(chars) + " ".repeat(length - chars) + " ]" + percent + "%";
-
-		System.out.print("\r");
-		// it will return to the start of the line in CMD, doesn't work in IDE terminal 
-		System.out.print(line);
-		System.out.flush();
+		double q = v / (double) total; 
+		this.setProgress(q);
 	}
-
+	
 }
